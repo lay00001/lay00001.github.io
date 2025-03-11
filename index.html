@@ -50,7 +50,7 @@
                     
                     <a class="page-link" href="Daily.html">Daily</a>
                     
-                    <a class="page-link" href="Notes.html">Notes</a>
+                    <a class="page-link" href="Review.html">Review</a>
                     
                     <a class="page-link" href="BookNotes.html">BookNotes</a>
                     
@@ -115,7 +115,7 @@
                         <h2  class="pitem" itemprop="name"  class="entry-title"><a itemprop="url" href="17416119491548.html">数组方法列表</a></h2>
                         
                         
-                        <span class="posted-cats"><a href='Notes.html'>Notes</a></span>
+                        <span class="posted-cats"><a href='Review.html'>Review</a></span>
                         
                         
                         <div itemprop="description" class="entry-description">
@@ -2612,6 +2612,24 @@
                 <li class="entry-item" itemscope="" itemtype="http://schema.org/Article">
                     <div class="entry-detail">
 
+                        <div class="pitem" class="entry-meta"><time class="entry-updated-time" datetime="2022/09/26">2022-09-26T14:24:46+08:00</time></div>
+                        
+                        <h2  class="pitem" itemprop="name"  class="entry-title"><a itemprop="url" href="read.html">读书清单</a></h2>
+                        
+                        
+                        <span class="posted-cats"><a href='Review.html'>Review</a></span>
+                        
+                        
+                        <div itemprop="description" class="entry-description">
+                            
+                        </div>
+
+                    </div>
+                </li>
+                
+                <li class="entry-item" itemscope="" itemtype="http://schema.org/Article">
+                    <div class="entry-detail">
+
                         <div class="pitem" class="entry-meta"><time class="entry-updated-time" datetime="2022/09/25">2022-09-25T10:22:53+08:00</time></div>
                         
                         <h2  class="pitem" itemprop="name"  class="entry-title"><a itemprop="url" href="16641589735171.html">凌晨5点的车站</a></h2>
@@ -4548,6 +4566,17 @@
     
         // 提取发布日期并转换为日期对象
         var pd = new Date("2022/09/27"); // 直接使用 Date 构造函数
+        var pdateKey = pd
+
+        // 统计每天的更新次数
+        if (updateCounts[pdateKey]) {
+            updateCounts[pdateKey]++;
+        } else {
+            updateCounts[pdateKey] = 1;
+        }
+    
+        // 提取发布日期并转换为日期对象
+        var pd = new Date("2022/09/26"); // 直接使用 Date 构造函数
         var pdateKey = pd
 
         // 统计每天的更新次数
