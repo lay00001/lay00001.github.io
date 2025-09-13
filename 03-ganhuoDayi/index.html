@@ -3,45 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>卡片生成器</title>
+    <title>直播干货答疑卡片生成器</title>
+    <!-- 引入阿里巴巴普惠体Web字体 -->
+    <link href="https://at.alicdn.com/t/font_1409684_f7qjvz3h9lslbq5.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>卡片生成器</h1>
+        <h1>🐸 直播干货答疑卡片生成器</h1>
         
-        <div class="input-section">
-            <label for="card-text">输入卡片内容：</label>
-            <textarea id="card-text" placeholder="这里是自定义内容，跟随输入动态变化"></textarea>
+        <!-- 切换标签 -->
+        <div class="tabs">
+            <div class="tab active" data-tab="single">单卡片生成</div>
+            <div class="tab" data-tab="batch">批量卡片生成</div>
         </div>
         
-        <div class="background-selection">
-            <h2>选择背景：</h2>
-            <div class="background-options">
-                <div class="background-option active" data-bg="1">
-                    <!-- <img src="assets/CodeBubbyAssets/233_6/1.png" alt="背景1"> -->
-                    <span>干货分享</span>
+        <!-- 单卡片生成标签内容 -->
+        <div class="tab-content active" id="single-tab">
+            <!-- 单个卡片编辑区域 -->
+            <div class="single-card-section">
+                <div class="input-section">
+                   <textarea id="card-text" placeholder="这里是自定义内容，跟随输入动态变化"></textarea>
                 </div>
-                <div class="background-option" data-bg="2">
-                    <!-- <img src="assets/CodeBubbyAssets/233_6/2.png" alt="背景2"> -->
-                    <span>答疑互动</span>
+                
+                <div class="background-selection">
+                    <!-- <h2>选择背景：</h2> -->
+                    <div class="background-options">
+                        <div class="background-option active" data-bg="1">
+                            <span>干货分享</span>
+                        </div>
+                        <div class="background-option" data-bg="2">
+                            <span>答疑互动</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-preview-container">
+                    <!-- <h2>卡片预览：</h2> -->
+                    <div class="card-preview">
+                        <div id="card" class="card">
+                            <img id="card-bg" src="assets/CodeBubbyAssets/233_6/1.png" alt="卡片背景">
+                            <div id="card-content" class="card-content">这里是自定义内容，跟随输入动态变化</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="actions">
+                    <button id="copy-btn" class="btn">复制到剪贴板</button>
+                    <button id="download-btn" class="btn">下载卡片</button>
                 </div>
             </div>
         </div>
         
-        <div class="card-preview-container">
-            <h2>卡片预览：</h2>
-            <div class="card-preview">
-                <div id="card" class="card">
-                    <img id="card-bg" src="assets/CodeBubbyAssets/233_6/1.png" alt="卡片背景">
-                    <div id="card-content" class="card-content">这里是自定义内容，跟随输入动态变化</div>
+        <!-- 批量卡片生成标签内容 -->
+        <div class="tab-content" id="batch-tab">
+            <!-- 批量输入区域 -->
+            <div class="batch-input-section">
+                <label for="batch-input">批量输入卡片内容（每行一个，格式：类型：内容）：</label>
+                <textarea id="batch-input" placeholder="如：
+互动答疑：新人如何快速融入团队，避免被孤立？
+干货分享：年轻人在上班和上进之间选择了上香，在求人和求已之间选择了求佛？
+互动答疑：职场中如何巧妙应对“推活甩锅”？
+干货分享：高学历人才流向服务业，如何看待“学历降维”的现象？"></textarea>
+                <button id="generate-batch-btn" class="btn">批量生成卡片</button>
+            </div>
+            
+            <!-- 批量预览区域 -->
+            <div id="batch-preview-container" class="batch-preview-container" style="display: none;">
+                <h3>批量卡片预览（点击卡片可以单独编辑）：</h3>
+                <div id="batch-cards" class="batch-cards"></div>
+                <div class="batch-actions">
+                    <!-- <button id="batch-copy-btn" class="btn">批量复制卡片</button> -->
+                    <button id="batch-download-btn" class="btn">批量下载卡片</button>
                 </div>
             </div>
-        </div>
-        
-        <div class="actions">
-            <button id="copy-btn" class="btn">复制到剪贴板</button>
-            <button id="download-btn" class="btn">下载卡片</button>
         </div>
     </div>
     

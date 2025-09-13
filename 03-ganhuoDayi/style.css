@@ -1,3 +1,4 @@
+/* 全局样式 */
 * {
     margin: 0;
     padding: 0;
@@ -5,7 +6,7 @@
 }
 
 body {
-    font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    font-family: "Alibaba PuHuiTi", "Microsoft YaHei", sans-serif;
     background-color: #f5f5f5;
     color: #333;
     line-height: 1.6;
@@ -20,16 +21,82 @@ body {
 h1 {
     text-align: center;
     margin-bottom: 30px;
-    color: #5A3918;
+    color: #001235;
+}
+
+/* 切换标签样式 */
+.tabs {
+    display: flex;
+    margin-bottom: 0;
+    border-bottom: 2px solid #ddd;
+}
+
+.tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    margin-right: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.tab:hover {
+    background-color: #e0e0e0;
+}
+
+.tab.active {
+    background-color: white;
+    font-weight: bold;
+    border-color: #ddd #ddd white;
+}
+
+/* 标签内容区域 */
+.tab-content {
+    display: none;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.tab-content.active {
+    display: block;
 }
 
 h2 {
     margin: 20px 0 10px;
-    color: #5A3918;
+    color: #001235;
 }
 
 .input-section {
     margin-bottom: 20px;
+}
+
+/* 批量输入区域样式 */
+.batch-input-section {
+    margin-bottom: 30px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
+}
+
+.batch-input-section textarea {
+    height: 150px;
+    margin-bottom: 15px;
+}
+
+/* 单卡片编辑区域样式 */
+.single-card-section {
+    margin-bottom: 30px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
 }
 
 label {
@@ -57,13 +124,35 @@ textarea {
     gap: 20px;
 }
 
+/* 优化的背景切换按钮样式 */
 .background-option {
     cursor: pointer;
-    border: 3px solid transparent;
-    border-radius: 8px;
-    padding: 5px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    padding: 10px 25px;
     text-align: center;
     transition: all 0.3s ease;
+    background-color: white;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 400;
+    color: #666;
+    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); */
+}
+
+.background-option:hover {
+    transform: translateY(-2px);
+    /* box-shadow: 0 4px 12px rgba(0, 18, 53, 0.1); */
+    border-color: #7d7d7d;
+    color: #7d7d7d;
+}
+
+.background-option.active {
+    border-color: #7d7d7d;
+    background-color: #7d7d7d;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 18, 53, 0.2);
+    font-weight: 400;
 }
 
 .background-option img {
@@ -71,10 +160,6 @@ textarea {
     height: auto;
     border-radius: 4px;
     margin-bottom: 5px;
-}
-
-.background-option.active {
-    border-color: #5A3918;
 }
 
 .card-preview-container {
@@ -87,7 +172,7 @@ textarea {
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
 }
 
 .card {
@@ -123,7 +208,8 @@ textarea {
 
 .btn {
     padding: 12px 24px;
-    background-color: #5A3918;
+    width: 100%;
+    background-color: #001235;
     color: white;
     border: none;
     border-radius: 4px;
@@ -133,7 +219,127 @@ textarea {
 }
 
 .btn:hover {
-    background-color: #7a5028;
+    background-color: #00246a;
+}
+
+/* 批量操作按钮样式 */
+.batch-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* 批量卡片预览区域样式 */
+.batch-preview-container {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 批量卡片网格布局 */
+.batch-cards {
+    /* display: grid; */
+    /* grid-template-columns: repeat(2, 1fr); */
+    gap: 20px;
+    justify-items: center;
+}
+
+/* 批量卡片容器样式 */
+.batch-card-container {
+    width: 100%;
+    max-width: 717px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* 点击卡片编辑样式 */
+.batch-card-container .card {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.batch-card-container .card:hover {
+    transform: scale(1.02);
+}
+
+/* 编辑弹窗样式 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.modal h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.edit-textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    resize: vertical;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+.type-container {
+    margin-bottom: 15px;
+}
+
+.type-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.type-container select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.cancel-btn {
+    background-color: #f44336;
+}
+
+.cancel-btn:hover {
+    background-color: #d32f2f;
 }
 
 @media (max-width: 768px) {
@@ -147,7 +353,8 @@ textarea {
         height: 604px;
     }
     
-    .actions {
+    .actions,
+    .batch-actions {
         flex-direction: column;
         align-items: center;
     }
@@ -156,4 +363,21 @@ textarea {
         width: 100%;
         margin-bottom: 10px;
     }
+    
+    .batch-cards {
+            grid-template-columns: 1fr;
+        }
+        
+        .modal-content {
+            width: 90%;
+            margin: 20% auto;
+        }
+        
+        .modal-actions {
+            flex-direction: column;
+        }
+        
+        .modal-actions .btn {
+            width: 100%;
+        }
 }
