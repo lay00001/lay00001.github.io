@@ -1,0 +1,137 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f5f5f5;
+    padding: 20px;
+    color: #1C2024;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.editor-panel {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.preview-panel {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #1C2024;
+    font-weight: 500;
+}
+
+.message-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #1C2024;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #E8E9EA;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+textarea {
+    height: 80px;
+    resize: vertical;
+}
+
+button {
+    background: #007AFF;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background 0.2s;
+    width: 100%;
+    margin-top: 20px;
+}
+
+button:hover {
+    background: #0056CC;
+}
+
+.chat-container {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    min-height: 400px;
+}
+
+.message {
+    display: flex;
+    margin-bottom: 16px;
+    max-width: 476px;
+}
+
+.message.right {
+    margin-left: auto;
+    flex-direction: row-reverse;
+}
+
+#chatPreview {
+    border: 1px solid #E8E9EA;
+    margin: 4px;
+}
+
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.message-content {
+    background: #C9E0FD;
+    padding: 10px 15px;
+    border-radius: 9px;
+    margin: 0 12px;
+    max-width: 270px;
+    word-wrap: break-word;
+}
+
+.message.left .message-content {
+    background: #E8E9EA;
+}
+
+.message-text {
+    font-size: 14.45px;
+    line-height: 1.4;
+    color: #1C2024;
+}

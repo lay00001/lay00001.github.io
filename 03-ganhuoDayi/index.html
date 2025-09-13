@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>干货卡片生成器</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>干货卡片生成器</h1>
+        
+        <div class="editor-container">
+            <div class="input-section">
+                <div class="form-group">
+                    <label for="titleInput">标题文本：</label>
+                    <input type="text" id="titleInput" value="干货分享" placeholder="输入标题">
+                </div>
+                
+                <div class="form-group">
+                    <label for="contentInput">内容文本：</label>
+                    <textarea id="contentInput" placeholder="输入自定义内容">这里是自定义内容，跟随输入动态变化</textarea>
+                </div>
+                
+                <button id="copyBtn" class="btn">复制到剪贴板</button>
+                <div id="copyMessage" class="copy-message">已复制到剪贴板！</div>
+            </div>
+            
+            <div class="preview-section">
+                <div class="card-container">
+                    <div class="card">
+                        <div class="card-background">
+                            <div class="yellow-border"></div>
+                            <div class="white-background"></div>
+                            <div class="decoration"></div>
+                        </div>
+                        <div class="card-content">
+                            <h2 id="cardTitle">干货分享</h2>
+                            <p id="cardContent">这里是自定义内容，跟随输入动态变化</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

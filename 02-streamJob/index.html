@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>直播岗位贴片生成器</title>
+    <!-- 引入阿里巴巴普惠体Web字体 -->
+    <link href="https://at.alicdn.com/t/font_1409684_f7qjvz3h9lslbq5.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- 引入SheetJS库用于处理Excel文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <!-- 引入JSZip库用于创建ZIP文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>🌆 直播岗位贴片生成器</h1>
+        
+        <div class="main-content">
+            <!-- 左侧输入区域 -->
+            <div class="input-section">
+                <!-- Excel文件上传功能 -->
+                <div class="file-upload-section">
+                    <h3>批量生成（Excel上传）</h3>
+                    <div class="form-group">
+                        <input type="file" id="excel-upload" accept=".xlsx,.xls">
+                        <label for="excel-upload" class="upload-label">点击上传Excel文件</label>
+                        <div id="upload-status" class="upload-status"></div>
+                    </div>
+                    <div class="excel-template-info">
+                        <p><strong>Excel文件格式要求：</strong></p>
+                        <ul>
+                            <li>第一列：公司名称</li>
+                            <li>第二列：岗位名称</li>
+                            <li>第三列：薪资范围</li>
+                            <li>相同公司的多行数据将被合并为一个贴片</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <!-- 单个贴片生成功能 -->
+                <div class="single-card-section">
+                    <h3>单张贴片生成</h3>
+                    <div class="form-group">
+                        <input type="text" id="company-name" placeholder="请输入公司名称">
+                    </div>
+                
+                <div class="jobs-container">
+                    <h2>岗位信息 <span class="small">(最多6个)</span></h2>
+                    <div id="jobs-list">
+                        <div class="job-item">
+                            <div class="form-group">
+                                <input type="text" id="job-title-1" class="job-title" placeholder="如：普工">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="job-salary-1" class="job-salary" placeholder="如：5000-8000">
+                            </div>
+                            <button class="remove-job" data-id="1">删除</button>
+                        </div>
+                    </div>
+                    <button id="add-job" class="btn">+添加岗位</button>
+                </div>
+            </div>
+            
+            <!-- 右侧预览区域 -->
+            <div class="preview-section">
+                <!-- <h2>贴片预览</h2> -->
+                <div class="card-container">
+                    <div id="job-card" class="job-card">
+                        <div class="company-title">
+                            <div class="line"></div>
+                            <div class="title">公司名称</div>
+                            <div class="line"></div>
+                        </div>
+                        <div class="jobs-grid">
+                            <div class="jobs-column">
+                                <div class="job-info"><span>普工&nbsp;5000-8000</span></div>
+                                <div class="job-info"><span>普工&nbsp;5000-8000</span></div>
+                                <div class="job-info"><span>普工&nbsp;5000-8000</span></div>
+                            </div>
+                            <div class="jobs-column">
+                                <div class="job-info"><span>普工&nbsp;5000-8000</span></div>
+                                <div class="job-info"><span>普工&nbsp;5000-8000</span></div>
+                                <div class="job-info"><span>普工&nbsp;5000-8000</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <button id="copy-card" class="btn">复制到剪贴板</button>
+                    <button id="download-card" class="btn">下载贴片</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 批量生成的贴片预览区域 -->
+        <div id="batch-preview-section" class="batch-preview-section" style="display: none;">
+            <h2>批量预览</h2>
+            <div class="actions">
+                <button id="download-all-cards" class="btn">下载所有贴片</button>
+            </div>
+            <div id="batch-cards-container" class="batch-cards-container">
+                <!-- 批量生成的贴片将在这里显示 -->
+            </div>
+            
+        </div>
+    </div>
+    
+    <!-- 批量生成的贴片模板（默认隐藏） -->
+    <div id="batch-card-template" class="job-card" style="display: none; cursor: pointer;">
+        <div class="company-title">
+            <div class="line"></div>
+            <div class="title">公司名称</div>
+            <div class="line"></div>
+        </div>
+        <div class="jobs-grid">
+            <div class="jobs-column">
+                <div class="job-info"><span>普工&nbsp;5000-8000</span></div>
+                <div class="job-info"><span>普工&nbsp;5000-8000</span></div>
+                <div class="job-info"><span>普工&nbsp;5000-8000</span></div>
+            </div>
+            <div class="jobs-column">
+                <div class="job-info"><span>普工&nbsp;5000-8000</span></div>
+                <div class="job-info"><span>普工&nbsp;5000-8000</span></div>
+                <div class="job-info"><span>普工&nbsp;5000-8000</span></div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

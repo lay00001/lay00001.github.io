@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聊天截图生成器</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>💬 抖音客服聊天截图生成器</h1>
+    
+    <div class="container">
+        <div class="editor-panel">
+            <div class="message-group">
+                <label for="message1">第一条消息（右侧）：</label>
+                <input type="text" id="message1" value="之前提交的查询，有结果了吗" placeholder="输入消息内容">
+            </div>
+            
+            <div class="message-group">
+                <label for="message2">第二条消息（左侧）：</label>
+                <input type="text" id="message2" value="久等了，违规原因已查询" placeholder="输入消息内容">
+            </div>
+            
+            <div class="message-group">
+                <label for="message3">第三条消息（左侧）：</label>
+                <textarea id="message3" placeholder="输入消息内容">经核实， 直播间主播涉及引导搜索绿泡泡相关内容，所以被管控，辛苦知悉</textarea>
+            </div>
+            
+
+            <button onclick="captureScreenshot()" style="background: #001235;" >复制截图到剪贴板</button>
+        </div>
+        
+        <div class="preview-panel">
+            <h3>预览</h3>
+            <div class="chat-container" id="chatPreview">
+                <div class="message right">
+                    <div class="avatar"><img src="./img/avatar1.png" alt="用户头像" width="40" height="40"></div>
+                    <div class="message-content">
+                        <div class="message-text">之前提交的查询，有结果了吗</div>
+                    </div>
+                </div>
+                
+                <div class="message left">
+                    <div class="avatar"><img src="./img/avatar2.png" alt="客服头像" width="40" height="40"></div>
+                    <div class="message-content">
+                        <div class="message-text">久等了，违规原因已查询</div>
+                    </div>
+                </div>
+                
+                <div class="message left">
+                    <div class="avatar"><img src="./img/avatar2.png" alt="客服头像" width="40" height="40"></div>
+                    <div class="message-content">
+                        <div class="message-text">经核实， 直播间主播涉及引导搜索绿泡泡相关内容，所以被管控，辛苦知悉</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入html2canvas库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <!-- 引入自定义脚本 -->
+    <script src="script.js"></script>
+</body>
+</html>

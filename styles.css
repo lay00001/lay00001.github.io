@@ -1,0 +1,90 @@
+/* 全局样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Alibaba PuHuiTi", "Microsoft YaHei", sans-serif;
+    background-color: #f6f6f6;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+
+.container {
+    width: 100%;
+    max-width: 1440px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 标题样式 */
+header {
+    margin-top: 146px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.title {
+    color: #001235;
+    font-size: 29px;
+    font-weight: 700;
+}
+
+/* 工具容器 */
+.tools-container {
+    width: 662px;
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* 工具卡片样式 */
+.tool-card {
+    width: auto;
+    height: 40px;
+    background-color: white;
+    border-radius: 9px;
+    border: 1px solid #EAEAEA;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tool-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tool-card span {
+    font-size: 14px;
+    font-weight: 400;
+    color: black;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    header {
+        margin-top: 80px;
+    }
+    
+    .tools-container {
+        width: 100%;
+        padding: 10px;
+    }
+    
+    .tool-card {
+        width: auto;
+    }
+}
