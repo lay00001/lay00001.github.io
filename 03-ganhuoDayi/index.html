@@ -3,47 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>干货卡片生成器</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>卡片生成器</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>干货卡片生成器</h1>
+        <h1>卡片生成器</h1>
         
-        <div class="editor-container">
-            <div class="input-section">
-                <div class="form-group">
-                    <label for="titleInput">标题文本：</label>
-                    <input type="text" id="titleInput" value="干货分享" placeholder="输入标题">
+        <div class="input-section">
+            <label for="card-text">输入卡片内容：</label>
+            <textarea id="card-text" placeholder="这里是自定义内容，跟随输入动态变化"></textarea>
+        </div>
+        
+        <div class="background-selection">
+            <h2>选择背景：</h2>
+            <div class="background-options">
+                <div class="background-option active" data-bg="1">
+                    <!-- <img src="assets/CodeBubbyAssets/233_6/1.png" alt="背景1"> -->
+                    <span>干货分享</span>
                 </div>
-                
-                <div class="form-group">
-                    <label for="contentInput">内容文本：</label>
-                    <textarea id="contentInput" placeholder="输入自定义内容">这里是自定义内容，跟随输入动态变化</textarea>
-                </div>
-                
-                <button id="copyBtn" class="btn">复制到剪贴板</button>
-                <div id="copyMessage" class="copy-message">已复制到剪贴板！</div>
-            </div>
-            
-            <div class="preview-section">
-                <div class="card-container">
-                    <div class="card">
-                        <div class="card-background">
-                            <div class="yellow-border"></div>
-                            <div class="white-background"></div>
-                            <div class="decoration"></div>
-                        </div>
-                        <div class="card-content">
-                            <h2 id="cardTitle">干货分享</h2>
-                            <p id="cardContent">这里是自定义内容，跟随输入动态变化</p>
-                        </div>
-                    </div>
+                <div class="background-option" data-bg="2">
+                    <!-- <img src="assets/CodeBubbyAssets/233_6/2.png" alt="背景2"> -->
+                    <span>答疑互动</span>
                 </div>
             </div>
         </div>
+        
+        <div class="card-preview-container">
+            <h2>卡片预览：</h2>
+            <div class="card-preview">
+                <div id="card" class="card">
+                    <img id="card-bg" src="assets/CodeBubbyAssets/233_6/1.png" alt="卡片背景">
+                    <div id="card-content" class="card-content">这里是自定义内容，跟随输入动态变化</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="actions">
+            <button id="copy-btn" class="btn">复制到剪贴板</button>
+            <button id="download-btn" class="btn">下载卡片</button>
+        </div>
     </div>
     
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

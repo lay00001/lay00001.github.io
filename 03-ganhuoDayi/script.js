@@ -1,94 +1,100 @@
-// 获取DOM元素
-const titleInput = document.getElementById('titleInput');
-const contentInput = document.getElementById('contentInput');
-const cardTitle = document.getElementById('cardTitle');
-const cardContent = document.getElementById('cardContent');
-const copyBtn = document.getElementById('copyBtn');
-const copyMessage = document.getElementById('copyMessage');
-
-// 实时更新卡片内容
-titleInput.addEventListener('input', function() {
-    cardTitle.textContent = this.value;
-});
-
-contentInput.addEventListener('input', function() {
-    cardContent.textContent = this.value;
-});
-
-// 复制到剪贴板功能
-copyBtn.addEventListener('click', async function() {
-    try {
-        // 创建一个临时的canvas元素来渲染卡片
-        const cardContainer = document.querySelector('.card-container');
-        
-        // 使用html2canvas库将卡片转换为图像
-        // 注意：需要先加载html2canvas库
-        if (typeof html2canvas === 'undefined') {
-            // 如果html2canvas未加载，则动态加载
-            await loadHtml2Canvas();
-        }
-        
-        const canvas = await html2canvas(cardContainer, {
-            backgroundColor: null,
-            scale: 2, // 提高图像质量
-            logging: false
+document.addEventListener('DOMContentLoaded', function() {
+    // 获取DOM元素
+    const cardText = document.getElementById('card-text');
+    const cardContent = document.getElementById('card-content');
+    const cardBg = document.getElementById('card-bg');
+    const card = document.getElementById('card');
+    const copyBtn = document.getElementById('copy-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const backgroundOptions = document.querySelectorAll('.background-option');
+    
+    // 初始化卡片内容
+    cardText.value = cardContent.textContent;
+    
+    // 监听文本输入，实时更新卡片内容
+    cardText.addEventListener('input', function() {
+        cardContent.textContent = this.value || '这里是自定义内容，跟随输入动态变化';
+    });
+    
+    // 背景选择功能
+    backgroundOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            // 移除所有active类
+            backgroundOptions.forEach(opt => opt.classList.remove('active'));
+            // 添加active类到当前选中项
+            this.classList.add('active');
+            
+            // 更新卡片背景
+            const bgNumber = this.getAttribute('data-bg');
+            cardBg.src = `assets/CodeBubbyAssets/233_6/${bgNumber}.png`;
         });
-        
-        // 将canvas转换为Blob
-        canvas.toBlob(async function(blob) {
-            try {
+    });
+    
+    // 复制到剪贴板功能
+    copyBtn.addEventListener('click', function() {
+        // 使用html2canvas将卡片转换为图像，设置backgroundColor: null以获得透明背景
+        html2canvas(card, { backgroundColor: null }).then(canvas => {
+            // 将canvas转换为blob
+            canvas.toBlob(function(blob) {
                 // 创建ClipboardItem对象
-                const item = new ClipboardItem({ 'image/png': blob });
+                const item = new ClipboardItem({ "image/png": blob });
                 
                 // 写入剪贴板
-                await navigator.clipboard.write([item]);
-                
-                // 显示成功消息
-                showCopyMessage();
-            } catch (err) {
-                // 如果现代API不可用，尝试使用canvas.toDataURL方法
-                fallbackCopyMethod(canvas);
-            }
+                navigator.clipboard.write([item]).then(function() {
+                    alert('卡片已复制到剪贴板！');
+                }, function(error) {
+                    console.error('复制失败: ', error);
+                    fallbackCopyMethod(canvas);
+                });
+            });
         });
-    } catch (err) {
-        console.error('复制失败:', err);
-        alert('复制失败，请重试');
+    });
+    
+    // 下载卡片功能
+    downloadBtn.addEventListener('click', function() {
+        // 使用html2canvas将卡片转换为图像，设置backgroundColor: null以获得透明背景
+        html2canvas(card, { backgroundColor: null }).then(canvas => {
+            // 创建下载链接
+            const link = document.createElement('a');
+            link.download = '我的卡片.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
+    });
+    
+    // 剪贴板API不可用时的备用复制方法
+    function fallbackCopyMethod(canvas) {
+        // 创建一个临时的img元素
+        const img = document.createElement('img');
+        img.src = canvas.toDataURL('image/png');
+        
+        // 创建一个临时的div来包含图像
+        const container = document.createElement('div');
+        container.appendChild(img);
+        container.style.position = 'fixed';
+        container.style.left = '-9999px';
+        
+        // 添加到DOM
+        document.body.appendChild(container);
+        
+        // 创建选区
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNode(container);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        
+        // 尝试复制
+        try {
+            document.execCommand('copy');
+            alert('卡片已复制到剪贴板！(使用备用方法)');
+        } catch (err) {
+            alert('复制失败，请尝试下载卡片。');
+            console.error('复制失败: ', err);
+        }
+        
+        // 清理
+        selection.removeAllRanges();
+        document.body.removeChild(container);
     }
 });
-
-// 加载html2canvas库
-function loadHtml2Canvas() {
-    return new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
-        script.onload = resolve;
-        script.onerror = reject;
-        document.head.appendChild(script);
-    });
-}
-
-// 备用复制方法
-function fallbackCopyMethod(canvas) {
-    // 创建一个链接元素
-    const link = document.createElement('a');
-    link.download = '干货卡片.png';
-    link.href = canvas.toDataURL('image/png');
-    
-    // 模拟点击下载
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    
-    // 提示用户
-    alert('图片已下载，请手动复制');
-}
-
-// 显示复制成功消息
-function showCopyMessage() {
-    copyMessage.style.display = 'block';
-    
-    // 3秒后隐藏消息
-    setTimeout(() => {
-        copyMessage.style.display = 'none';
-    }, 3000);
-}
