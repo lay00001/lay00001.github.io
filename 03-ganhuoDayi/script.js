@@ -171,42 +171,44 @@ document.addEventListener('DOMContentLoaded', function() {
         batchPreviewContainer.style.display = 'block';
     });
     
-    // 批量复制卡片功能
-    batchCopyBtn.addEventListener('click', function() {
-        const batchCardElements = document.querySelectorAll('[id^="batch-card-"]');
-        if (batchCardElements.length === 0) {
-            alert('没有可复制的卡片');
-            return;
-        }
-        
-        // 依次复制每个卡片
-        let copiedCount = 0;
-        const copyNextCard = (index) => {
-            if (index >= batchCardElements.length) {
-                alert(`已成功复制 ${copiedCount} 张卡片到剪贴板！`);
+    // 批量复制卡片功能 - 检查元素是否存在
+    if (batchCopyBtn) {
+        batchCopyBtn.addEventListener('click', function() {
+            const batchCardElements = document.querySelectorAll('[id^="batch-card-"]');
+            if (batchCardElements.length === 0) {
+                alert('没有可复制的卡片');
                 return;
             }
             
-            const card = batchCardElements[index];
-            html2canvas(card, { backgroundColor: null }).then(canvas => {
-                canvas.toBlob(function(blob) {
-                    const item = new ClipboardItem({ "image/png": blob });
-                    
-                    navigator.clipboard.write([item]).then(function() {
-                        copiedCount++;
-                        copyNextCard(index + 1);
-                    }, function(error) {
-                        console.error('复制失败: ', error);
-                        copyNextCard(index + 1);
+            // 依次复制每个卡片
+            let copiedCount = 0;
+            const copyNextCard = (index) => {
+                if (index >= batchCardElements.length) {
+                    alert(`已成功复制 ${copiedCount} 张卡片到剪贴板！`);
+                    return;
+                }
+                
+                const card = batchCardElements[index];
+                html2canvas(card, { backgroundColor: null }).then(canvas => {
+                    canvas.toBlob(function(blob) {
+                        const item = new ClipboardItem({ "image/png": blob });
+                        
+                        navigator.clipboard.write([item]).then(function() {
+                            copiedCount++;
+                            copyNextCard(index + 1);
+                        }, function(error) {
+                            console.error('复制失败: ', error);
+                            copyNextCard(index + 1);
+                        });
                     });
                 });
-            });
-        };
-        
-        copyNextCard(0);
-    });
+            };
+            
+            copyNextCard(0);
+        });
+    }
     
-    // 批量下载卡片功能
+    // 批量下载卡片功能（ZIP打包）
     batchDownloadBtn.addEventListener('click', function() {
         const batchCardElements = document.querySelectorAll('[id^="batch-card-"]');
         if (batchCardElements.length === 0) {
@@ -214,30 +216,36 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // 依次下载每个卡片
-        let downloadedCount = 0;
-        const downloadNextCard = (index) => {
+        // 创建ZIP文件
+        const zip = new JSZip();
+        let processedCount = 0;
+        
+        // 处理每个卡片并添加到ZIP
+        const processNextCard = (index) => {
             if (index >= batchCardElements.length) {
-                alert(`已成功下载 ${downloadedCount} 张卡片！`);
+                // 所有卡片处理完毕，生成并下载ZIP文件
+                zip.generateAsync({ type: 'blob' }).then(function(content) {
+                    const link = document.createElement('a');
+                    link.download = `卡片集合_${new Date().getTime()}.zip`;
+                    link.href = URL.createObjectURL(content);
+                    link.click();
+                    alert(`已成功将 ${processedCount} 张卡片打包为ZIP文件！`);
+                });
                 return;
             }
             
             const card = batchCardElements[index];
             html2canvas(card, { backgroundColor: null }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = `我的卡片${index + 1}.png`;
-                link.href = canvas.toDataURL('image/png');
-                
-                // 使用定时器确保连续下载
-                setTimeout(() => {
-                    link.click();
-                    downloadedCount++;
-                    downloadNextCard(index + 1);
-                }, 500);
+                // 将canvas转换为base64格式并添加到ZIP
+                canvas.toBlob(function(blob) {
+                    zip.file(`我的卡片${index + 1}.png`, blob);
+                    processedCount++;
+                    processNextCard(index + 1);
+                });
             });
         };
         
-        downloadNextCard(0);
+        processNextCard(0);
     });
     
     // 编辑弹窗功能
