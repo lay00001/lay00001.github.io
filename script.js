@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 window.location.href = '../02-streamJob/index.html';
             } else if (toolName.includes('直播干货答疑卡片生成器')) {
                 window.location.href = '../03-ganhuoDayi/index.html';
+            } else if (toolName.includes('直播海报生成器')) {
+                window.location.href = '../04-posts/index.html';
             }
 
             else {

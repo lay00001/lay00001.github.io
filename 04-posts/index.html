@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>直播海报生成器</title>
+    <!-- 引入阿里巴巴普惠体Web字体 -->
+    <link href="https://at.alicdn.com/t/font_1409684_f7qjvz3h9lslbq5.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>🍖 直播海报生成器</h1>
+    <div class="container">
+        <div class="form-container">
+            <div class="form-group">
+                <label for="date">日期：</label>
+                <input type="date" id="date" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="startTime">开始时间：</label>
+                <input type="time" id="startTime" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="endTime">结束时间：</label>
+                <input type="time" id="endTime" required>
+            </div>
+        </div>
+        
+        <div class="preview-container">
+            <h2>直播封面 和 视频号海报</h2>
+            <div class="posters-container">
+                <div id="posterPreview1" class="poster-preview">
+                    <div id="posterCanvas1" class="poster-canvas">
+                        <!-- 海报1将在这里生成 -->
+                    </div>
+                </div>
+                <div id="posterPreview2" class="poster-preview">
+                    <div id="posterCanvas2" class="poster-canvas">
+                        <!-- 海报2将在这里生成 -->
+                    </div>
+                </div>
+            </div>
+            <div class="buttons-container">
+                <button id="downloadBtn1" disabled>下载直播封面</button>
+                <button id="downloadBtn2" disabled>下载视频号海报</button>
+                <button id="downloadBothBtn" disabled>同时下载两个</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
