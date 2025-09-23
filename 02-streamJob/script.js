@@ -235,7 +235,8 @@ let batchCardsData = [];
     downloadCardBtn.addEventListener('click', function() {
         createTransparentCanvas(jobCard).then(function(transparentCanvas) {
             const link = document.createElement('a');
-            link.download = '招聘贴片.png';
+            const companyName = companyNameInput.value.trim() || '公司名称';
+            link.download = 'G1' + companyName + '.png';
             link.href = transparentCanvas.toDataURL('image/png');
             link.click();
         }).catch(function(error) {
@@ -244,7 +245,7 @@ let batchCardsData = [];
         });
     });
     
-    // 创建带有透明背景的canvas
+    // 创建带有透明背景的canvas，并设置为1080*1920px大小，卡片居中显示
     function createTransparentCanvas(element) {
         return new Promise(function(resolve, reject) {
             html2canvas(element, {
@@ -258,19 +259,23 @@ let batchCardsData = [];
                 width: element.offsetWidth,
                 height: element.offsetHeight
             }).then(function(canvas) {
-                // 创建一个新的canvas，确保背景是完全透明的
+                // 创建一个新的canvas，尺寸为1080*1920px
                 const transparentCanvas = document.createElement('canvas');
                 const ctx = transparentCanvas.getContext('2d');
                 
-                // 设置相同的尺寸
-                transparentCanvas.width = canvas.width;
-                transparentCanvas.height = canvas.height;
+                // 设置目标尺寸：1080*1920px
+                transparentCanvas.width = 1080;
+                transparentCanvas.height = 1920;
                 
                 // 清除画布，确保背景透明
                 ctx.clearRect(0, 0, transparentCanvas.width, transparentCanvas.height);
                 
-                // 将原始canvas绘制到新canvas上
-                ctx.drawImage(canvas, 0, 0);
+                // 设置卡片位置：距离上边缘654px，距离左边缘197px
+                const cardX = 197;
+                const cardY = 654;
+                
+                // 将原始canvas绘制到新canvas上的指定位置
+                ctx.drawImage(canvas, cardX, cardY);
                 
                 // 处理白色背景问题 - 将所有接近白色的像素设置为透明
                 const imageData = ctx.getImageData(0, 0, transparentCanvas.width, transparentCanvas.height);
@@ -570,9 +575,11 @@ function updateBatchCard(cardElement, companyName, jobs) {
 
 // 下载单个批量贴片
 function downloadSingleBatchCard(cardElement, companyName) {
+    // 获取公司在批量数据中的索引，加1作为序号
+    const index = batchCardsData.findIndex(item => item.companyName === companyName) + 1;
     createTransparentCanvas(cardElement).then(function(transparentCanvas) {
         const link = document.createElement('a');
-        link.download = `${companyName}_招聘贴片.png`;
+        link.download = `G${index}${companyName}.png`;
         link.href = transparentCanvas.toDataURL('image/png');
         link.click();
     }).catch(function(error) {
@@ -605,7 +612,7 @@ function downloadAllCards() {
                     return new Promise((resolve) => {
                         canvas.toBlob((blob) => {
                             // 将图片添加到ZIP文件中
-                            zip.file(`${cardData.companyName}_招聘贴片.png`, blob);
+                            zip.file(`G${index + 1}${cardData.companyName}.png`, blob);
                             resolve();
                         }, 'image/png');
                     });
