@@ -399,7 +399,24 @@ function processExcelData(jsonData) {
         // 尝试获取公司名称、岗位名称和薪资范围（兼容不同的Excel表头）
         const companyName = getValueFromRow(row, ['公司名称', '公司', '企业名称', '企业']);
         const jobTitle = getValueFromRow(row, ['岗位名称', '岗位', '职位名称', '职位']);
-        const jobSalary = getValueFromRow(row, ['薪资范围', '薪资', '工资范围', '工资']);
+        
+        // 尝试获取薪资范围，或者获取薪资起和薪资止并合并
+        let jobSalary = getValueFromRow(row, ['薪资范围', '薪资', '工资范围', '工资']);
+        
+        // 如果没有直接的薪资范围，尝试获取薪资起和薪资止并合并
+        if (!jobSalary) {
+            const salaryStart = getValueFromRow(row, ['薪资起', '起薪', '工资起', '最低工资']);
+            const salaryEnd = getValueFromRow(row, ['薪资止', '止薪', '工资止', '最高工资']);
+            
+            // 如果有薪资起和/或薪资止，合并成薪资范围
+            if (salaryStart && salaryEnd) {
+                jobSalary = `${salaryStart}-${salaryEnd}`;
+            } else if (salaryStart) {
+                jobSalary = `${salaryStart}以上`;
+            } else if (salaryEnd) {
+                jobSalary = `不超过${salaryEnd}`;
+            }
+        }
         
         // 跳过无效数据
         if (!companyName || !jobTitle) {
