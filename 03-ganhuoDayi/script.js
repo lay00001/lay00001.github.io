@@ -88,13 +88,53 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 下载卡片功能
     downloadBtn.addEventListener('click', function() {
-        // 使用html2canvas将卡片转换为图像，设置backgroundColor: null以获得透明背景
-        html2canvas(card, { backgroundColor: null }).then(canvas => {
+        // 创建临时容器来放置卡片，以便按照要求的边距和大小进行截图
+        const tempContainer = document.createElement('div');
+        // 设置整体尺寸为1080*1920px
+        tempContainer.style.width = '1080px';
+        tempContainer.style.height = '1920px';
+        tempContainer.style.position = 'fixed';
+        tempContainer.style.left = '-9999px'; // 将容器放在可视区域外
+        tempContainer.style.top = '0';
+        tempContainer.style.backgroundColor = 'transparent';
+        tempContainer.style.overflow = 'hidden';
+        
+        // 创建卡片的克隆版本
+        const cardClone = card.cloneNode(true);
+        // 移除ID以避免重复
+        cardClone.removeAttribute('id');
+        // 设置卡片样式，使卡片距离各边缘符合要求
+        cardClone.style.position = 'absolute';
+        cardClone.style.top = '631px';
+        cardClone.style.bottom = '992px';
+        cardClone.style.left = '187px';
+        cardClone.style.right = '176px';
+        cardClone.style.width = 'auto';
+        cardClone.style.height = 'auto';
+        
+        // 将克隆的卡片添加到临时容器
+        tempContainer.appendChild(cardClone);
+        // 将临时容器添加到文档中
+        document.body.appendChild(tempContainer);
+        
+        // 使用html2canvas对临时容器进行截图，设置backgroundColor: null以获得透明背景
+        html2canvas(tempContainer, {
+                backgroundColor: null,
+                scale: 1, // 保持原始尺寸
+                logging: false
+            }).then(canvas => {
             // 创建下载链接
             const link = document.createElement('a');
             link.download = '我的卡片.png';
             link.href = canvas.toDataURL('image/png');
             link.click();
+            
+            // 清理临时元素
+            document.body.removeChild(tempContainer);
+        }).catch(error => {
+            console.error('生成图片失败:', error);
+            // 清理临时元素
+            document.body.removeChild(tempContainer);
         });
     });
     
@@ -220,6 +260,18 @@ document.addEventListener('DOMContentLoaded', function() {
         const zip = new JSZip();
         let processedCount = 0;
         
+        // 创建临时容器来放置卡片，以便按照要求的边距和大小进行截图
+        const tempContainer = document.createElement('div');
+        // 设置整体尺寸为1080*1920px
+        tempContainer.style.width = '1080px';
+        tempContainer.style.height = '1920px';
+        tempContainer.style.position = 'fixed';
+        tempContainer.style.left = '-9999px'; // 将容器放在可视区域外
+        tempContainer.style.top = '0';
+        tempContainer.style.backgroundColor = 'transparent';
+        tempContainer.style.overflow = 'hidden';
+        document.body.appendChild(tempContainer);
+        
         // 处理每个卡片并添加到ZIP
         const processNextCard = (index) => {
             if (index >= batchCardElements.length) {
@@ -230,18 +282,48 @@ document.addEventListener('DOMContentLoaded', function() {
                     link.href = URL.createObjectURL(content);
                     link.click();
                     alert(`已成功将 ${processedCount} 张卡片打包为ZIP文件！`);
+                    // 清理临时元素
+                    document.body.removeChild(tempContainer);
                 });
                 return;
             }
             
             const card = batchCardElements[index];
-            html2canvas(card, { backgroundColor: null }).then(canvas => {
+            
+            // 清空临时容器
+            tempContainer.innerHTML = '';
+            
+            // 创建卡片的克隆版本
+            const cardClone = card.cloneNode(true);
+            // 移除ID以避免重复
+            cardClone.removeAttribute('id');
+            // 设置卡片样式，使卡片距离各边缘符合要求
+            cardClone.style.position = 'absolute';
+            cardClone.style.top = '631px';
+            cardClone.style.bottom = '992px';
+            cardClone.style.left = '187px';
+            cardClone.style.right = '176px';
+            cardClone.style.width = 'auto';
+            cardClone.style.height = 'auto';
+            
+            // 将克隆的卡片添加到临时容器
+            tempContainer.appendChild(cardClone);
+            
+            html2canvas(tempContainer, {
+                backgroundColor: null,
+                scale: 1, // 保持原始尺寸
+                logging: false
+            }).then(canvas => {
                 // 将canvas转换为base64格式并添加到ZIP
                 canvas.toBlob(function(blob) {
                     zip.file(`我的卡片${index + 1}.png`, blob);
                     processedCount++;
                     processNextCard(index + 1);
                 });
+            }).catch(error => {
+                console.error('生成图片失败:', error);
+                processedCount++;
+                processNextCard(index + 1);
             });
         };
         
