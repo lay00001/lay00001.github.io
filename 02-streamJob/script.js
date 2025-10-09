@@ -11,6 +11,11 @@ const batchPreviewSection = document.getElementById('batch-preview-section');
 const batchCardsContainer = document.getElementById('batch-cards-container');
 const downloadAllCardsBtn = document.getElementById('download-all-cards');
 const batchCardTemplate = document.getElementById('batch-card-template');
+// 字体大小控制元素
+const titleFontSizeSlider = document.getElementById('title-font-size');
+const titleFontSizeValue = document.getElementById('title-font-size-value');
+const salaryFontSizeSlider = document.getElementById('salary-font-size');
+const salaryFontSizeValue = document.getElementById('salary-font-size-value');
 
 // 存储批量生成的贴片数据
 let batchCardsData = [];
@@ -36,6 +41,21 @@ let batchCardsData = [];
         
         // 更新贴片
         updateCard(companyName, jobs);
+    }
+    
+    // 字体大小变化事件处理函数
+    function handleFontSizeChange() {
+        // 更新显示的字体大小值
+        titleFontSizeValue.textContent = titleFontSizeSlider.value + 'px';
+        salaryFontSizeValue.textContent = salaryFontSizeSlider.value + 'px';
+        
+        // 更新贴片预览
+        updateCardRealTime();
+        
+        // 如果批量预览区域可见，也更新批量生成的贴片
+        if (batchPreviewSection.style.display !== 'none') {
+            renderBatchCards();
+        }
     }
     
     // 为公司名称输入框添加实时更新事件
@@ -69,6 +89,14 @@ let batchCardsData = [];
     
     // 初始添加监听器
     addRealTimeListeners();
+    
+    // 为字体大小控制滑块添加事件监听
+    titleFontSizeSlider.addEventListener('input', handleFontSizeChange);
+    salaryFontSizeSlider.addEventListener('input', handleFontSizeChange);
+    
+    // 初始化显示字体大小值
+    titleFontSizeValue.textContent = titleFontSizeSlider.value + 'px';
+    salaryFontSizeValue.textContent = salaryFontSizeSlider.value + 'px';
     
     // 添加岗位
     addJobBtn.addEventListener('click', function() {
@@ -164,7 +192,8 @@ let batchCardsData = [];
                 jobInfo.classList.add('no-ellipsis');
             }
             
-            jobInfo.innerHTML = '<span>' + job.title + '&nbsp;' + job.salary + '</span>';
+            // 分别设置岗位名称和薪资的字体大小
+            jobInfo.innerHTML = '<span style="font-size: ' + titleFontSizeSlider.value + 'px;">' + job.title + '</span><span style="font-size: ' + salaryFontSizeSlider.value + 'px;">&nbsp;' + job.salary + '</span>';
             
             // 前3个岗位放左侧，后3个岗位放右侧
             if (i < 3) {
@@ -543,7 +572,8 @@ function updateBatchCard(cardElement, companyName, jobs) {
             jobInfo.classList.add('no-ellipsis');
         }
         
-        jobInfo.innerHTML = '<span>' + job.title + '&nbsp;' + job.salary + '</span>';
+        // 分别设置岗位名称和薪资的字体大小
+            jobInfo.innerHTML = '<span style="font-size: ' + titleFontSizeSlider.value + 'px;">' + job.title + '</span><span style="font-size: ' + salaryFontSizeSlider.value + 'px;">&nbsp;' + job.salary + '</span>';
         
         // 前3个岗位放左侧，后3个岗位放右侧
         if (i < 3) {
